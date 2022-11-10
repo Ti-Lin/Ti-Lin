@@ -863,6 +863,8 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
             minmax=LB[predict_label]-UB.max()
             target_label=np.where(UB==UB.max())
             print("Step {}, eps = {:.5f}, {:.6s} <= f_c - f_t ".format(j,np.exp(log_eps),str(np.squeeze(minmax))))
+            if np.exp(log_eps) > 10:
+                break
             if minmax > 0: #Increase eps
                 log_eps_min = log_eps
                 log_eps = np.minimum(log_eps+1, (log_eps_max+log_eps_min)/2)

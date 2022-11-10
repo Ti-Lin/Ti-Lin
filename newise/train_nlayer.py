@@ -25,7 +25,7 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 K.set_session(tf.Session(config=config))
 
-from tensorflow.keras.callbacks import ModelCheckpoint
+import tensorflow as tf
 from setup_mnist import MNIST
 from setup_cifar import CIFAR
 import argparse
@@ -56,17 +56,18 @@ def train_cnn_7layer(data, file_name, params, num_epochs=10, batch_size=256, tra
 
     model.add(Conv2D(params[2], (3, 3)))
     model.add(Lambda(tf.atan) if activation == "arctan" else Activation(activation))
-    # model.add(Conv2D(params[3], (3, 3)))
-    # model.add(Lambda(tf.atan) if activation == "arctan" else Activation(activation))
+    model.add(Conv2D(params[3], (3, 3)))
+    model.add(Lambda(tf.atan) if activation == "arctan" else Activation(activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Flatten())
-    model.add(Dense(params[3]))
+    model.add(Dense(params[4]))
     model.add(Lambda(tf.atan) if activation == "arctan" else Activation(activation))
-    # model.add(Dropout(0.5))
-    # model.add(Dense(params[4]))
-    # model.add(Lambda(tf.atan) if activation == "arctan" else Activation(activation))
+    model.add(Dropout(0.5))
+    model.add(Dense(params[5]))
+    model.add(Lambda(tf.atan) if activation == "arctan" else Activation(activation))
     model.add(Dense(200))
+
   
     # load initial weights when given
     if init != None:
@@ -91,16 +92,13 @@ def train_cnn_7layer(data, file_name, params, num_epochs=10, batch_size=256, tra
     model.summary()
     print("Traing a {} layer model, saving to {}".format(len(params) + 1, file_name))
     # run training with given dataset, and print progress
-    checkpointer = ModelCheckpoint(file_name+'{epoch:03d}.hdf5',verbose=1, save_weights_only=False, period=10)
     history = model.fit(data.train_data, data.train_labels,
               batch_size=batch_size,
               validation_data=(data.validation_data, data.validation_labels),
               epochs=num_epochs,
-              shuffle=True,
-              callbacks=[checkpointer])
-    loss = history.history['loss']  # 测试集损失
-    acc = history.history['acc']
-    print(loss,acc)
+              shuffle=True)
+    
+
     # save model to a file
     if file_name != None:
         model.save(file_name)
@@ -128,29 +126,16 @@ if __name__ == '__main__':
     #train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_5", params=[32,32,64,64,200,200], num_epochs=50, lr=0.001, decay=11e-5, activation="relu", optimizer_name="adam")
     
     # train tiny imagenet: 6
-    #train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_6", params=[32,32,64,64,200,200], num_epochs=60, lr=0.0001, decay=1e-5, activation="relu", optimizer_name="adam")
+    train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_6", params=[32,32,64,64,200,200], num_epochs=60, lr=0.0001, decay=1e-5, activation="relu", optimizer_name="adam")
     
     # train tiny imagenet: 7
-    #train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_7", params=[32,32,64,64,200,200], num_epochs=100, lr=0.00005, decay=0, activation="relu", optimizer_name="adam")
+    train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_7", params=[32,32,64,64,200,200], num_epochs=100, lr=0.00005, decay=0, activation="relu", optimizer_name="adam")
     
     
     
     # train mnist
-    '''
-    train_cnn_7layer(MNIST(), file_name="models/mnist_cnn_7layer_pool_sigmoid", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="sigmoid", optimizer_name="adam")
-    train_cnn_7layer(MNIST(), file_name="models/mnist_cnn_7layer_pool_tanh", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="tanh", optimizer_name="adam")
-    train_cnn_7layer(MNIST(), file_name="models/mnist_cnn_7layer_pool_arctan", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="arctan", optimizer_name="adam")
-    
-    train_cnn_7layer(CIFAR(), file_name="models/cifa_cnn_7layer_pool_sigmoid", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="sigmoid", optimizer_name="adam")
-    train_cnn_7layer(CIFAR(), file_name="models/cifa_cnn_7layer_pool_tanh", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="tanh", optimizer_name="adam")
-    train_cnn_7layer(CIFAR(), file_name="models/cifa_cnn_7layer_pool_arctan", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="arctan", optimizer_name="adam")
-    
-    train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_pool_sigmoid", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="sigmoid", optimizer_name="adam")
-    train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_pool_tanh", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="tanh", optimizer_name="adam")
-    train_cnn_7layer(tinyImagenet(), file_name="models/tiny_cnn_7layer_pool_arctan", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="arctan", optimizer_name="adam")
-    '''
-    # train_cnn_7layer(CIFAR(), file_name="models/cifa_cnn_7layer", params=[32,32,64,64,200,200], num_epochs=20, lr=0.001, decay=0, activation="relu", optimizer_name="adam")
-    train_cnn_7layer(tinyImagenet(), file_name="newmodels/tiny_cnn_5layer", params=[32, 32, 64, 200], num_epochs=20, lr=0.001, decay=0, activation="relu", optimizer_name="adam")
+    #train_cnn_7layer(MNIST(), file_name="models/mnist_cnn_7layer", params=[5,5,5,5,5,5], num_epochs=10, lr=0.001, decay=0, activation="relu", optimizer_name="adam")
+
 """ original     
     train_cnn_7layer(MNIST(), file_name="models/mnist_cnn_7layer", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="relu", optimizer_name="adam")
     train_cnn_7layer(MNIST(), file_name="models/mnist_cnn_7layer_sigmoid", params=[32,32,64,64,200,200], num_epochs=10, lr=0.001, decay=0, activation="sigmoid", optimizer_name="adam")

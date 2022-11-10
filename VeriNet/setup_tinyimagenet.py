@@ -82,7 +82,7 @@ def load_images(trainPath):
 class tinyImagenet():
     def __init__(self):
 
-        trainPath='/root/new-Ti-Lin/data/tiny-imagenet-200/train/'
+        trainPath='data/tiny-imagenet-200/train'
         
         # X_train shape: num_train*3*64*64 
         X_train, y_train, X_val, y_val, X_test, y_test = load_images(trainPath) 
@@ -96,4 +96,3 @@ class tinyImagenet():
         
         self.test_data = np.swapaxes(X_test,1,3)
         self.test_labels = y_test
-        

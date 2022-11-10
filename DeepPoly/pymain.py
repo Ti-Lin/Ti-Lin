@@ -253,7 +253,7 @@ def run_LP(layers, mlp_file_name, num_image=10, core=True, cifar=False):
     return LBs, times
 
 
-from CLEVER.collect_gradients import collect_gradients
+#from CLEVER.collect_gradients import collect_gradients
 def run_CLEVER(file_name, num_image = 10, cifar=False, tinyimagenet=False):
     if len(file_name.split('_')) == 5:
         nlayer = file_name.split('_')[-3][0]
@@ -344,7 +344,7 @@ if __name__ == '__main__':
     LB = []
     time = []
 
-    table = 12
+    table = 6
     print("==================================================")
     print("================ Running Table {} ================".format(table))
     print("==================================================")

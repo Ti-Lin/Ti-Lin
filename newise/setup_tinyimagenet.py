@@ -36,6 +36,7 @@ def load_images(trainPath):
     annotations={}
     for sChild in os.listdir(trainPath):
         sChildPath = os.path.join(os.path.join(trainPath,sChild),'images')
+        #print(sChildPath)
         annotations[sChild]=j
         for c in os.listdir(sChildPath):
             X=np.array(Image.open(os.path.join(sChildPath,c)))
@@ -48,7 +49,7 @@ def load_images(trainPath):
         j+=1
         if (j >= num_classes):
             break
-    
+    #print(X_train)
     num_pts = X_train.shape[0]
     idx = np.random.permutation(num_pts)
     
@@ -68,11 +69,8 @@ def load_images(trainPath):
     y_train = np.eye(200)[y_train[train_idx]]
 
     X_train = np.float32(X_train)
-    X_train = X_train / 255.0 - 0.5
     X_val = np.float32(X_val)
-    X_val = X_val / 255.0 - 0.5
     X_test = np.float32(X_test)
-    X_test = X_test / 255.0 - 0.5
 
 
     print(" ========= data type ============")
@@ -84,7 +82,7 @@ def load_images(trainPath):
 class tinyImagenet():
     def __init__(self):
 
-        trainPath='./data/tiny-imagenet-200/train'
+        trainPath='data/tiny-imagenet-200/train'
         
         # X_train shape: num_train*3*64*64 
         X_train, y_train, X_val, y_val, X_test, y_test = load_images(trainPath) 

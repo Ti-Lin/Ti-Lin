@@ -120,22 +120,68 @@ if __name__ == '__main__':
     train(CIFAR(), file_name="models/cifar_cnn_5layer_5_3_atan", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation=tf.atan)
     train(CIFAR(), file_name="models/cifar_cnn_7layer_5_3_atan", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3], num_epochs=10, activation=tf.atan)
     '''
+    train(MNIST(), file_name="models/mnist_cnn_2layer_5_3_sigmoid", filters=[5], kernels = [3], num_epochs=10, activation = tf.sigmoid)
+    train(MNIST(), file_name="models/mnist_cnn_3layer_5_3_sigmoid", filters=[5,5], kernels = [3,3], num_epochs=10, activation = tf.sigmoid)
+    train(MNIST(), file_name="models/mnist_cnn_4layer_5_3_sigmoid", filters=[5,5,5], kernels = [3,3,3], num_epochs=10, activation = tf.sigmoid)
     train(MNIST(), file_name="models/mnist_cnn_5layer_5_3_sigmoid", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.sigmoid)
     train(MNIST(), file_name="models/mnist_cnn_6layer_5_3_sigmoid", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
     train(MNIST(), file_name="models/mnist_cnn_7layer_5_3_sigmoid", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_5_3_sigmoid", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_5_3_sigmoid", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.sigmoid)
     train(CIFAR(), file_name="models/cifar_cnn_6layer_5_3_sigmoid", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_5_3_sigmoid", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
     train(CIFAR(), file_name="models/cifar_cnn_8layer_5_3_sigmoid", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    
+    train(MNIST(), file_name="models/mnist_cnn_4layer_10_3_sigmoid", filters=[10,10,10], kernels = [3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_10_3_sigmoid", filters=[10,10,10,10,10,10,10], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_20_3_sigmoid", filters=[20,20,20,20,20,20,20], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_10_3_sigmoid", filters=[10,10,10,10], kernels = [3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_10_3_sigmoid", filters=[10,10,10,10,10,10], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_20_3_sigmoid", filters=[20,20,20,20], kernels = [3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_20_3_sigmoid", filters=[20,20,20,20,20,20], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
+    
+    
 
+    train(MNIST(), file_name="models/mnist_cnn_2layer_5_3_tanh", filters=[5], kernels = [3], num_epochs=10, activation = tf.tanh)
+    train(MNIST(), file_name="models/mnist_cnn_3layer_5_3_tanh", filters=[5,5], kernels = [3,3], num_epochs=10, activation = tf.tanh)
+    train(MNIST(), file_name="models/mnist_cnn_4layer_5_3_tanh", filters=[5,5,5], kernels = [3,3,3], num_epochs=10, activation = tf.tanh)
     train(MNIST(), file_name="models/mnist_cnn_5layer_5_3_tanh", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.tanh)
     train(MNIST(), file_name="models/mnist_cnn_6layer_5_3_tanh", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.tanh)
     train(MNIST(), file_name="models/mnist_cnn_7layer_5_3_tanh", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_5_3_tanh", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_5_3_tanh", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.tanh)
     train(CIFAR(), file_name="models/cifar_cnn_6layer_5_3_tanh", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_5_3_tanh", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
     train(CIFAR(), file_name="models/cifar_cnn_8layer_5_3_tanh", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    
+    train(MNIST(), file_name="models/mnist_cnn_4layer_10_3_tanh", filters=[10,10,10], kernels = [3,3,3], num_epochs=10, activation = tf.tanh)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_10_3_tanh", filters=[10,10,10,10,10,10,10], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_20_3_tanh", filters=[20,20,20,20,20,20,20], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_10_3_tanh", filters=[10,10,10,10], kernels = [3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_10_3_tanh", filters=[10,10,10,10,10,10], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_20_3_tanh", filters=[20,20,20,20], kernels = [3,3,3,3], num_epochs=10, activation = tf.tanh)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_20_3_tanh", filters=[20,20,20,20,20,20], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
 
+
+
+    train(MNIST(), file_name="models/mnist_cnn_2layer_5_3_atan", filters=[5], kernels = [3], num_epochs=10, activation = tf.atan)
+    train(MNIST(), file_name="models/mnist_cnn_3layer_5_3_atan", filters=[5,5], kernels = [3,3], num_epochs=10, activation = tf.atan)
+    train(MNIST(), file_name="models/mnist_cnn_4layer_5_3_atan", filters=[5,5,5], kernels = [3,3,3], num_epochs=10, activation = tf.atan)
     train(MNIST(), file_name="models/mnist_cnn_5layer_5_3_atan", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.atan)
     train(MNIST(), file_name="models/mnist_cnn_6layer_5_3_atan", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.atan)
     train(MNIST(), file_name="models/mnist_cnn_7layer_5_3_atan", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_5_3_atan", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_5_3_atan", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.atan)
     train(CIFAR(), file_name="models/cifar_cnn_6layer_5_3_atan", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_5_3_atan", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
     train(CIFAR(), file_name="models/cifar_cnn_8layer_5_3_atan", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    
+    train(MNIST(), file_name="models/mnist_cnn_4layer_10_3_atan", filters=[10,10,10], kernels = [3,3,3], num_epochs=10, activation = tf.atan)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_10_3_atan", filters=[10,10,10,10,10,10,10], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(MNIST(), file_name="models/mnist_cnn_8layer_20_3_atan", filters=[20,20,20,20,20,20,20], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_10_3_atan", filters=[10,10,10,10], kernels = [3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_10_3_atan", filters=[10,10,10,10,10,10], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(CIFAR(), file_name="models/cifar_cnn_5layer_20_3_atan", filters=[20,20,20,20], kernels = [3,3,3,3], num_epochs=10, activation = tf.atan)
+    train(CIFAR(), file_name="models/cifar_cnn_7layer_20_3_atan", filters=[20,20,20,20,20,20], kernels = [3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
 
     

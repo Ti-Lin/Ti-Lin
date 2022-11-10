@@ -296,33 +296,22 @@ if __name__ == '__main__':
     LB = []
     time = []
 
-    table = 1
+    table = 3
     print("==================================================")
     print("================ Running Table {} ================".format(table))
     print("==================================================")
     printlog("Table {} result".format(table))
     printlog("-----------------------------------")
     
-    if table == -2:
+    if table == 3:
         # max pool certified region
-        LBs, times = run_all_general('../models/mnist_cnn_6layer', ada=True, onlyrelu=True, core=True)
+        LBs, times = run_all_general('newmodels/tiny_cnn_5layer', ada=True, onlyrelu=True, core=True, no_activate=False, tiny_imagenet=True)
         LB.append(LBs)                                                                
-        time.append(times)                                                            
-        LBs, times = run_all_general('../models/mnist_cnn_7layer', ada=True, onlyrelu=True, core=True)
+        time.append(times)         
+        LBs, times = run_all_general('newmodels/tiny_cnn_6layer', ada=True, onlyrelu=True, core=True, no_activate=False, tiny_imagenet=True)
         LB.append(LBs)                                                                
-        time.append(times)                                                            
-        LBs, times = run_all_general('../models/mnist_cnn_8layer', ada=True, onlyrelu=True, core=True)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../models/cifa_cnn_6layer', ada=True, onlyrelu=True, core=True, cifar=True)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../models/cifa_cnn_7layer', ada=True, onlyrelu=True, core=True, cifar=True)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../models/cifa_cnn_8layer', ada=True, onlyrelu=True, core=True, cifar=True)
-        LB.append(LBs)
-        time.append(times)
+        time.append(times)                           
+
         
     if table == 1:
         #activation certified region
@@ -343,63 +332,20 @@ if __name__ == '__main__':
         LB.append(LBs)
         time.append(times)
         '''
-        '''
-        
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_2layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_3layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_4layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_5layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        '''
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_6layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_7layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_8layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_8layer_10_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_8layer_20_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        '''
 
+        LBs, times = run_all_general('../Ti-Lin/newmodels/cifar_cnn_8layer_10_3', core=False,ada=False,cifar=True, no_activate=False)
+        LB.append(LBs)
+        time.append(times)
 
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_5layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
+        '''
+        LBs, times = run_all_general('../Ti-Lin/newmodels/cifar_cnn_6layer_20_3', core=False,ada=False,cifar=True, no_activate=False)
         LB.append(LBs)
         time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_6layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_7layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_8layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_5layer_10_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_5layer_20_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_7layer_10_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_7layer_20_3', core=False,ada=False,cifar=True, no_activate=False)
+        LBs, times = run_all_general('../Ti-Lin/newmodels/cifar_cnn_8layer_10_3', core=False,ada=False,cifar=True, no_activate=False)
         LB.append(LBs)
         time.append(times)
         '''
+        # LBs, times = run_all_general('../Ti-Lin/newmodels/cifar_cnn_8layer_20_3', core=False,ada=False,cifar=True, no_activate=False)
+        # LB.append(LBs)
+        # time.append(times)
         

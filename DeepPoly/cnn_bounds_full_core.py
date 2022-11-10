@@ -1,7 +1,7 @@
 """
 cnn_bounds_full_core.py
 
-Main Deep-Cert computing file for networks with just convolution and pooling layers
+Main CNN-Cert computing file for networks with just convolution and pooling layers
 
 Copyright (C) 2018, Akhilan Boopathy <akhilan@mit.edu>
                     Lily Weng  <twweng@mit.edu>
@@ -111,7 +111,7 @@ class CNNModel:
             elif type(layer) == Activation:
                 print('activation')
             elif type(layer) == Lambda:
-	            print('lambda')
+                print('lambda')
             elif type(layer) == InputLayer:
                 print('input')
             elif type(layer) == BatchNormalization:
@@ -298,14 +298,14 @@ def lower_bound_conv(A, B, pad, stride, W, b, inner_pad, inner_stride, inner_sha
 
 
 @njit
-def sort(new_s):
+def sort_(new_s):
     #进行排序，然后选出前三名的索引
     new_index = np.argsort(new_s)
     return new_index[-1], new_index[-2], new_index[-3]
 
+
 @njit
 def pool_linear_bounds(LB, UB, pad, stride, pool_size):
-    print('-----')
     p_hl, p_hr, p_wl, p_wr = pad
     s_h, s_w = stride
     alpha_u = np.zeros((pool_size[0], pool_size[1], int((UB.shape[0]+p_hl+p_hr-pool_size[0])/s_h)+1, int((UB.shape[1]+p_wl+p_wr-pool_size[1])/s_w)+1, UB.shape[2]), dtype=np.float32)
@@ -320,81 +320,36 @@ def pool_linear_bounds(LB, UB, pad, stride, pool_size):
                 cropped_UB = UB[s_h*x-p_hl:pool_size[0]+s_h*x-p_hl, s_w*y-p_wl:pool_size[1]+s_w*y-p_wl,r]
 
                 max_LB = cropped_LB.max()
-                if max_LB>= cropped_UB.max():
-                    idxl = np.where(max_LB>=cropped_LB)
-                    t = idxl[0][0]
-                    u = idxl[1][0]
-                    alpha_u[t, u, x, y, r] = 1
-                    alpha_l[t, u, x, y, r] = 1
-                    beta_u[x, y, r] = 0
-                    beta_l[x, y, r] = 0
+                idx = np.where(cropped_UB>=max_LB)
+                u_s = np.zeros(len(idx[0]), dtype=np.float32)
+                l_s = np.zeros(len(idx[0]), dtype=np.float32)
+                gamma = np.inf
+                
+                for i in range(len(idx[0])):
+                    l_s[i] = cropped_LB[idx[0][i],idx[1][i]]
+                    u_s[i] = cropped_UB[idx[0][i],idx[1][i]]
+                    if l_s[i] == u_s[i]:
+                        gamma = l_s[i]
+                il,_,_=sort_(l_s)
+                iu,_,_=sort_(u_s)
+                weights = np.zeros(len(idx[0]), dtype=np.float32)
+                weights2 = np.zeros(len(idx[0]), dtype=np.float32)
+                if il==iu:
+                    weights[il]=1
+                    beta_u[x,y,r]=0
                 else:
-                    idx = np.where(cropped_UB>max_LB)
-                    u_s = np.zeros(len(idx[0]), dtype=np.float32)
-                    l_s = np.zeros(len(idx[0]), dtype=np.float32)
-                    uu = len(idx[0])
-                    weights = np.zeros(len(idx[0]), dtype=np.float32)
-                    #weights2 = np.zeros(len(idx[0]), dtype=np.float32)
-                    for i in range(len(idx[0])):
-                        l_s[i] = cropped_LB[idx[0][i],idx[1][i]]
-                        u_s[i] = cropped_UB[idx[0][i],idx[1][i]]
-                        if l_s[i] == u_s[i]:
-                            uu=i
-                        
-                        #     gamma = l_s[i]
-                    mm=cropped_LB+cropped_LB
-                    max_mm = mm.max()
-                    idxm = np.where(mm>=max_mm)
-                    if len(idx[0])==1:
-                        weights[0] = 1
-                        intercept = max_LB
-                    elif len(idx[0])==2:
-                        if u_s[0]>u_s[1]:
-                            print('344', u_s[0] - l_s[0])
-                            weights[0] = (u_s[0]- l_s[0]) / (u_s[0] - l_s[0])
-                            weights[1]=1
-                            intercept = max_LB
-                        elif uu==1:
-                            print('349', u_s[0] - l_s[0])
-                            weights[0] = 1
-                            intercept = max_LB
-                        else:
-                            print('353', u_s[0] - l_s[0])
-                            weights[1] = (u_s[0]- l_s[0]) / (u_s[0] - l_s[0])
-                            weights[0] = 1
-                            intercept = max_LB
-                    elif len(idx[0]) == 3:
-                        print('358', u_s[0] - l_s[0])
-                        print('359', u_s[1] - l_s[1])
-                        print('360', u_s[1] - l_s[1])
-                        temp=u_s.min()
-                        weights[0] = (u_s[0]- temp) / (u_s[0] - l_s[0])
-                        weights[1] = (u_s[1]- temp) / (u_s[1] - l_s[1])
-                        weights[2] = (u_s[2]- temp) / (u_s[2] - l_s[2])
-                        intercept = temp
-                    else:
-                        ii,jj,kk=sort(u_s)
-                        print('368', u_s[ii] - l_s[ii])
-                        print('369', u_s[jj] - l_s[jj])
-                        temp=u_s[kk]
-                        weights[ii] = (u_s[ii]- temp) / (u_s[ii] - l_s[ii])
-                        weights[jj] = (u_s[jj]- temp) / (u_s[jj] - l_s[jj])
-                        intercept = temp
-                            
-                    for m in range(len(idx[0])):
-                        t = idx[0][m]
-                        u = idx[1][m]
-                        alpha_u[t, u, x, y, r] = weights[m]
-                    t = idxm[0][0]
-                    u = idxm[1][0]
-                    alpha_l[t, u, x, y, r] = 1
-                    beta_u[x, y, r] = intercept - np.dot(weights, l_s)
-                    beta_l[x, y, r] = 0
-    print('-----')
-    print(alpha_u, alpha_l, beta_u, beta_l)
+                    beta_u[x,y,r]=u_s[iu]
+                weights2[il]=1
+                
+                for i in range(len(idx[0])):
+                    t = idx[0][i]
+                    u = idx[1][i]
+                    alpha_u[t,u,x,y,r] = weights[i]
+                    alpha_l[t,u,x,y,r] = weights2[i]
+
+
+                beta_l[x,y,r] = 0
     return alpha_u, alpha_l, beta_u, beta_l
-
-
 
 @njit
 def upper_bound_pool(A, B, pad, stride, pool_size, inner_pad, inner_stride, inner_shape, LB, UB):
@@ -442,6 +397,53 @@ def lower_bound_pool(A, B, pad, stride, pool_size, inner_pad, inner_stride, inne
     B_new = conv_full(A_plus,beta_l,pad,stride) + conv_full(A_minus,beta_u,pad,stride)+B
     return A_new, B_new
 
+
+@njit
+def upper_bound_pool0(A, B, pad, stride, pool_size, inner_pad, inner_stride, inner_shape, LB, UB):
+    A_new = np.zeros((A.shape[0], A.shape[1], A.shape[2], inner_stride[0]*(A.shape[3]-1)+pool_size[0], inner_stride[1]*(A.shape[4]-1)+pool_size[1], A.shape[5]), dtype=np.float32)
+    B_new = np.zeros(B.shape, dtype=np.float32)
+    A_plus = np.maximum(A, 0)
+    A_minus = np.minimum(A, 0)
+    alpha_u, alpha_l, beta_u, beta_l = pool_linear_bounds(LB, LB, inner_pad, inner_stride, pool_size)
+
+    for x in range(A_new.shape[0]):
+        for y in range(A_new.shape[1]):
+            for t in range(A_new.shape[3]):
+                for u in range(A_new.shape[4]):
+                    inner_index_x = t+stride[0]*inner_stride[0]*x-inner_stride[0]*pad[0]-inner_pad[0]
+                    inner_index_y = u+stride[1]*inner_stride[1]*y-inner_stride[1]*pad[2]-inner_pad[2]
+                    if 0<=inner_index_x<inner_shape[0] and 0<=inner_index_y<inner_shape[1]:
+                        for p in range(A.shape[3]):
+                            for q in range(A.shape[4]):
+                                if 0<=t-inner_stride[0]*p<alpha_u.shape[0] and 0<=u-inner_stride[1]*q<alpha_u.shape[1] and 0<=p+stride[0]*x-pad[0]<alpha_u.shape[2] and 0<=q+stride[1]*y-pad[2]<alpha_u.shape[3]:
+                                    A_new[x,y,:,t,u,:] += A_plus[x,y,:,p,q,:]*alpha_u[t-inner_stride[0]*p,u-inner_stride[1]*q,p+stride[0]*x-pad[0],q+stride[1]*y-pad[2],:]
+                                    A_new[x,y,:,t,u,:] += A_minus[x,y,:,p,q,:]*alpha_l[t-inner_stride[0]*p,u-inner_stride[1]*q,p+stride[0]*x-pad[0],q+stride[1]*y-pad[2],:]
+    B_new = conv_full(A_plus,beta_u,pad,stride) + conv_full(A_minus,beta_l,pad,stride)+B
+    return A_new, B_new
+
+@njit
+def lower_bound_pool0(A, B, pad, stride, pool_size, inner_pad, inner_stride, inner_shape, LB, UB):
+    A_new = np.zeros((A.shape[0], A.shape[1], A.shape[2], inner_stride[0]*(A.shape[3]-1)+pool_size[0], inner_stride[1]*(A.shape[4]-1)+pool_size[1], A.shape[5]), dtype=np.float32)
+    B_new = np.zeros(B.shape, dtype=np.float32)
+    A_plus = np.maximum(A, 0)
+    A_minus = np.minimum(A, 0)
+    alpha_u, alpha_l, beta_u, beta_l = pool_linear_bounds(LB, LB, inner_pad, inner_stride, pool_size)
+
+    for x in range(A_new.shape[0]):
+        for y in range(A_new.shape[1]):
+            for t in range(A_new.shape[3]):
+                for u in range(A_new.shape[4]):
+                    inner_index_x = t+stride[0]*inner_stride[0]*x-inner_stride[0]*pad[0]-inner_pad[0]
+                    inner_index_y = u+stride[1]*inner_stride[1]*y-inner_stride[1]*pad[2]-inner_pad[2]
+                    if 0<=inner_index_x<inner_shape[0] and 0<=inner_index_y<inner_shape[1]:
+                        for p in range(A.shape[3]):
+                            for q in range(A.shape[4]):
+                                if 0<=t-inner_stride[0]*p<alpha_u.shape[0] and 0<=u-inner_stride[1]*q<alpha_u.shape[1] and 0<=p+stride[0]*x-pad[0]<alpha_u.shape[2] and 0<=q+stride[1]*y-pad[2]<alpha_u.shape[3]:
+                                    A_new[x,y,:,t,u,:] += A_plus[x,y,:,p,q,:]*alpha_l[t-inner_stride[0]*p,u-inner_stride[1]*q,p+stride[0]*x-pad[0],q+stride[1]*y-pad[2],:]
+                                    A_new[x,y,:,t,u,:] += A_minus[x,y,:,p,q,:]*alpha_u[t-inner_stride[0]*p,u-inner_stride[1]*q,p+stride[0]*x-pad[0],q+stride[1]*y-pad[2],:]
+    B_new = conv_full(A_plus,beta_l,pad,stride) + conv_full(A_minus,beta_u,pad,stride)+B
+    return A_new, B_new
+
 #Main function to find bounds at each layer
 @njit
 def compute_bounds(weights, biases, out_shape, nlayer, x0, eps, p_n, strides, pads, LBs, UBs):
@@ -466,13 +468,20 @@ def compute_bounds(weights, biases, out_shape, nlayer, x0, eps, p_n, strides, pa
                 B_u = np.zeros(out_shape, dtype=np.float32)
                 A_l = A_u.copy()
                 B_l = B_u.copy()
-            A_u, B_u = upper_bound_pool(A_u, B_u, pad, stride, weights[i].shape[1:], pads[i], strides[i], modified_UBs[i].shape, np.maximum(modified_LBs[i],0), np.maximum(modified_UBs[i],0))
-            A_l, B_l = lower_bound_pool(A_l, B_l, pad, stride, weights[i].shape[1:], pads[i], strides[i], modified_LBs[i].shape, np.maximum(modified_LBs[i],0), np.maximum(modified_UBs[i],0))
+            if eps==0:
+                A_u, B_u = upper_bound_pool0(A_u, B_u, pad, stride, weights[i].shape[1:], pads[i], strides[i], modified_UBs[i].shape, np.maximum(modified_LBs[i],0), np.maximum(modified_UBs[i],0))
+                A_l, B_l = lower_bound_pool0(A_l, B_l, pad, stride, weights[i].shape[1:], pads[i], strides[i], modified_LBs[i].shape, np.maximum(modified_LBs[i],0), np.maximum(modified_UBs[i],0))
+            else:
+                A_u, B_u = upper_bound_pool(A_u, B_u, pad, stride, weights[i].shape[1:], pads[i], strides[i], modified_UBs[i].shape, np.maximum(modified_LBs[i],0), np.maximum(modified_UBs[i],0))
+                A_l, B_l = lower_bound_pool(A_l, B_l, pad, stride, weights[i].shape[1:], pads[i], strides[i], modified_LBs[i].shape, np.maximum(modified_LBs[i],0), np.maximum(modified_UBs[i],0))
         pad = (strides[i][0]*pad[0]+pads[i][0], strides[i][0]*pad[1]+pads[i][1], strides[i][1]*pad[2]+pads[i][2], strides[i][1]*pad[3]+pads[i][3])
         stride = (strides[i][0]*stride[0], strides[i][1]*stride[1])
     LUB, UUB = conv_bound_full(A_u, B_u, pad, stride, x0, eps, p_n)
     LLB, ULB = conv_bound_full(A_l, B_l, pad, stride, x0, eps, p_n)
     return LLB, ULB, LUB, UUB
+
+
+
 
 #Main function to find output bounds
 def find_output_bounds(weights, biases, shapes, pads, strides, x0, eps, p_n):
@@ -486,20 +495,19 @@ def find_output_bounds(weights, biases, shapes, pads, strides, x0, eps, p_n):
         LBs.append(LB)
     return LBs[-1], UBs[-1]
 
+
+
+
 #Warms up numba functions
 def warmup(model, x, eps_0, p_n, fn):
     print('Warming up...')
-    weights = model.weights[:-1]
-    biases = model.biases[:-1]
-    shapes = model.shapes[:-1]
-    W, b, s = model.weights[-1], model.biases[-1], model.shapes[-1]
-    last_weight = np.ascontiguousarray((W[0,:,:,:]).reshape([1]+list(W.shape[1:])),dtype=np.float32)
-    weights.append(last_weight)
-    biases.append(np.asarray([b[0]]))
-    shapes.append((1,1,1))
+    weights = model.weights
+    biases = model.biases
+    shapes = model.shapes
+
     fn(weights, biases, shapes, model.pads, model.strides, x, eps_0, p_n)
 
-#Main function to compute Deep-Cert bound
+#Main function to compute CNN-Cert bound
 def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyimagenet=False):
     np.random.seed(1215)
     tf.set_random_seed(1215)
@@ -531,8 +539,9 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
     if cifar:
         inputs, targets, true_labels, true_ids, img_info = generate_data(CIFAR(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
     elif tinyimagenet:
-        inputs, targets, true_labels, true_ids, img_info = generate_data(tinyImagenet(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
+        inputs, targets, true_labels, true_ids, img_info = generate_data(tinyImagenet(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=20)
     else:
+        print('-------MNIST Data------')
         inputs, targets, true_labels, true_ids, img_info = generate_data(MNIST(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
     #0b01111 <- all
     #0b0010 <- random
@@ -542,30 +551,39 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
     steps = 15
     eps_0 = 0.05
     summation = 0
-    warmup(model, inputs[0].astype(np.float32), eps_0, p_n, find_output_bounds)
+    #warmup(model, inputs[0].astype(np.float32), eps_0, p_n, find_output_bounds)
         
     start_time = time.time()
     for i in range(len(inputs)):
-        print('--- Deep-Cert: Computing eps for input image ' + str(i)+ '---')
-        predict_label = np.argmax(true_labels[i])
-        target_label = np.argmax(targets[i])
-        weights = model.weights[:-1]
-        biases = model.biases[:-1]
-        shapes = model.shapes[:-1]
-        W, b, s = model.weights[-1], model.biases[-1], model.shapes[-1]
-        last_weight = (W[predict_label,:,:,:]-W[target_label,:,:,:]).reshape([1]+list(W.shape[1:]))
-        weights.append(last_weight)
-        biases.append(np.asarray([b[predict_label]-b[target_label]]))
-        shapes.append((1,1,1))
-
+        print('--- CNN-Cert: Computing eps for input image ' + str(i)+ '---')
+        # predict_label = np.argmax(true_labels[i])
+        # target_label = np.argmax(targets[i])
+        weights = model.weights
+        biases = model.biases
+        shapes = model.shapes
+        # W, b, s = model.weights[-1], model.biases[-1], model.shapes[-1]
+        # last_weight = (W[predict_label,:,:,:]-W[target_label,:,:,:]).reshape([1]+list(W.shape[1:]))
+        # weights.append(last_weight)
+        # biases.append(np.asarray([b[predict_label]-b[target_label]]))
+        # shapes.append((1,1,1))
+        LB,UB = find_output_bounds(weights, biases, shapes, model.pads, model.strides, inputs[i].astype(np.float32), 0, p_n)
+        predict_label=np.where(LB>=LB.max())
+        LB[predict_label]=-np.inf
+        minmax=LB[predict_label]-UB.max()
+        target_label=np.where(UB==UB.max())
+        print("Step {}, eps = {:.5f}, {:.6s} <= f_c - f_t ".format(-1,0,str(np.squeeze(minmax))))
         #Perform binary search
         log_eps = np.log(eps_0)
         log_eps_min = -np.inf
         log_eps_max = np.inf
         for j in range(steps):
             LB, UB = find_output_bounds(weights, biases, shapes, model.pads, model.strides, inputs[i].astype(np.float32), np.exp(log_eps), p_n)
-            print("Step {}, eps = {:.5f}, {:.6s} <= f_c - f_t <= {:.6s}".format(j,np.exp(log_eps),str(np.squeeze(LB)),str(np.squeeze(UB))))
-            if LB > 0: #Increase eps
+            UB[predict_label]=-np.inf
+            minmax=LB[predict_label]-UB.max()
+            target_label=np.where(UB==UB.max())
+            print("Step {}, eps = {:.5f}, {:.6s} <= f_c - f_t".format(j,np.exp(log_eps),str(np.squeeze(minmax))))
+            
+            if minmax > 0: #Increase eps
                 log_eps_min = log_eps
                 log_eps = np.minimum(log_eps+1, (log_eps_max+log_eps_min)/2)
             else: #Decrease eps
@@ -577,11 +595,12 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
         else:
             str_p_n = str(p_n)
         
-        print("[L1] method = Deep-Cert-{}, model = {}, image no = {}, true_id = {}, target_label = {}, true_label = {}, norm = {}, robustness = {:.5f}".format(activation,file_name, i, true_ids[i],target_label,predict_label,str_p_n,np.exp(log_eps_min)))
+        print("[L1] method = CNN-Cert-{}, model = {}, image no = {}, true_id = {}, target_label = {}, true_label = {}, norm = {}, robustness = {:.5f}".format(activation,file_name, i, true_ids[i],target_label,predict_label,str_p_n,np.exp(log_eps_min)))
         summation += np.exp(log_eps_min)
     K.clear_session()
     
     eps_avg = summation/len(inputs)
     total_time = (time.time()-start_time)/len(inputs)
-    print("[L0] method = Deep-Cert-{}, model = {}, total images = {}, norm = {}, avg robustness = {:.5f}, avg runtime = {:.2f}".format(activation,file_name,len(inputs),str_p_n,eps_avg,total_time))
+    print("[L0] method = CNN-Cert-{}, model = {}, total images = {}, norm = {}, avg robustness = {:.5f}, avg runtime = {:.2f}".format(activation,file_name,len(inputs),str_p_n,eps_avg,total_time))
     return eps_avg, total_time
+

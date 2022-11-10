@@ -1,7 +1,7 @@
 """
 cnn_bounds_full.py
 
-Main Deep-Cert computation file for general networks
+Main CNN-Cert computation file for general networks
 
 Copyright (C) 2018, Akhilan Boopathy <akhilan@mit.edu>
                     Lily Weng  <twweng@mit.edu>
@@ -24,9 +24,9 @@ from tensorflow.contrib.keras.api.keras.models import load_model
 from tensorflow.contrib.keras.api.keras import backend as K
 from train_resnet import ResidualStart, ResidualStart2
 import tensorflow as tf
-from utils_fnn import generate_data
+from utils import generate_data
 import time
-from activations import relu_linear_bounds, ada_linear_bounds, atan_linear_bounds, sigmoid_linear_bounds, tanh_linear_bounds
+from activations import relu_linear_bounds, ada_linear_bounds, atan_linear_bounds, sigmoid_linear_bounds, tanh_linear_bounds,atan,sigmoid,tanh
 linear_bounds = None
 
 import random
@@ -452,7 +452,10 @@ def UL_pool_bound(A, B, pad, stride, pool_size, inner_pad, inner_stride, inner_s
 def compute_bounds(weights, biases, out_shape, nlayer, x0, eps, p_n, pads, strides, sizes, types, LBs, UBs):
     if types[nlayer-1] == 'relu':
         #print('relu')
-        return np.maximum(LBs[nlayer-1], 0), np.maximum(UBs[nlayer-1], 0)
+        alpha_u, alpha_l, beta_u, beta_l = linear_bounds(LBs[nlayer-1], UBs[nlayer-1])
+        LB=alpha_l*LBs[nlayer-1]+beta_l 
+        UB=alpha_u*UBs[nlayer-1]+beta_u
+        return LB,UB
     elif types[nlayer-1] == 'conv':
         #print('conv')
         A_u = weights[nlayer-1].reshape((1, 1, weights[nlayer-1].shape[0], weights[nlayer-1].shape[1], weights[nlayer-1].shape[2], weights[nlayer-1].shape[3]))*np.ones((out_shape[0], out_shape[1], weights[nlayer-1].shape[0], weights[nlayer-1].shape[1], weights[nlayer-1].shape[2], weights[nlayer-1].shape[3]), dtype=np.float32)
@@ -558,7 +561,8 @@ def compute_bounds(weights, biases, out_shape, nlayer, x0, eps, p_n, pads, strid
             stride = (inner_stride[0]*stride[0], inner_stride[1]*stride[1])
     LUB, UUB = conv_bound_full(A_u, B_u, np.asarray(pad), np.asarray(stride), x0, eps, p_n)
     LLB, ULB = conv_bound_full(A_l, B_l, np.asarray(pad), np.asarray(stride), x0, eps, p_n)
-
+    if eps==0:
+        UUB=LLB
     return LLB, UUB
 
 #Main function to find output bounds
@@ -566,26 +570,16 @@ def find_output_bounds(weights, biases, shapes, pads, strides, sizes, types, x0,
     LBs = [x0-eps]
     UBs = [x0+eps]
     for i in range(1,len(weights)+1):
-        print('Layer ' + str(i), types[i-1])
+        print('Layer ' + str(i))
         LB, UB = compute_bounds(weights, biases, shapes[i], i, x0, eps, p_n, pads, strides, sizes, types, LBs, UBs)
         UBs.append(UB)
         LBs.append(LB)
     return LBs[-1], UBs[-1]
 
-#Warms up numba functions
-def warmup(model, x, eps_0, p_n, func):
-    print('Warming up...')
-    weights = model.weights[:-1]
-    biases = model.biases[:-1]
-    shapes = model.shapes[:-1]
-    W, b, s = model.weights[-1], model.biases[-1], model.shapes[-1]
-    last_weight = np.ascontiguousarray((W[0,:,:,:]).reshape([1]+list(W.shape[1:])),dtype=np.float32)
-    weights.append(last_weight)
-    biases.append(np.asarray([b[0]]))
-    shapes.append((1,1,1))
-    func(weights, biases, shapes, model.pads, model.strides, model.sizes, model.types, x, eps_0, p_n)
+def relu(x):
+    return np.maximum(x,0)
 
-#Main function to compute Deep-Cert bound
+#Main function to compute CNN-Cert bound
 def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyimagenet=False):
     np.random.seed(1215)
     tf.set_random_seed(1215)
@@ -599,25 +593,30 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
         model = Model(keras_model)
 
     #Set correct linear_bounds function
-    global linear_bounds
+    global linear_bounds,act
     if activation == 'relu':
         linear_bounds = relu_linear_bounds
+        
     elif activation == 'ada':
         linear_bounds = ada_linear_bounds
+        act=relu
     elif activation == 'sigmoid':
         linear_bounds = sigmoid_linear_bounds
+        act=sigmoid
     elif activation == 'tanh':
         linear_bounds = tanh_linear_bounds
+        act=tanh
     elif activation == 'arctan':
         linear_bounds = atan_linear_bounds
+        act=atan
     
     if cifar:
-        inputs, targets, true_labels, true_ids, img_info = generate_data(CIFAR(), cifa=True, samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
+        inputs, targets, true_labels, true_ids, img_info = generate_data(CIFAR(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
     elif tinyimagenet:
-        inputs, targets, true_labels, true_ids, img_info = generate_data(tinyImagenet(), cifa=False, samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
+        inputs, targets, true_labels, true_ids, img_info = generate_data(tinyImagenet(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
     else:
         print('---hhhh--')
-        inputs, targets, true_labels, true_ids, img_info = generate_data(MNIST(), cifa=False, samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
+        inputs, targets, true_labels, true_ids, img_info = generate_data(MNIST(), samples=n_samples, targeted=True, random_and_least_likely = True, target_type = 0b0010, predictor=model.model.predict, start=0)
 
     if len(inputs) == 0:
         return 0, 0
@@ -626,27 +625,18 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
     #0b0010 <- random
     #0b0001 <- top2
     #0b0100 <- least
-    #print(inputs[0][np.newaxis,:].shape)
-    #preds = model.model.predict(inputs[0][np.newaxis,:]).flatten()
-    #preds = model.model.predict(np.squeeze(inputs[0][np.newaxis,:], axis = 1)).flatten()
-    if not cifar:
-        #print(np.squeeze(inputs[0][np.newaxis,:], axis = 3).shape)
-        #preds = model.model.predict(np.squeeze(inputs[0][np.newaxis,:], axis = 3)).flatten()
-        preds = model.model.predict(np.squeeze(inputs[0][np.newaxis,:], axis = 1)).flatten()
-    else:
-        #preds = model.model.predict(inputs[0][np.newaxis,:]).flatten()
-        preds = model.model.predict(inputs[0].transpose(1, 2, 0)[np.newaxis,:]).flatten()
+    preds = model.model.predict(inputs[0][np.newaxis,:]).flatten()
     steps = 15
     eps_0 = 0.05
     summation = 0
 
-    warmup(model, inputs[0].astype(np.float32), eps_0, p_n, find_output_bounds)
+    #warmup(model, inputs[0].astype(np.float32), eps_0, p_n, find_output_bounds)
         
     start_time = time.time()
     for i in range(len(inputs)):
-        print('--- Deep-Cert: Computing eps for input image ' + str(i)+ '---')
-        # predict_label = np.argmax(true_labels[i])
-        # target_label = np.argmax(targets[i])
+        print('--- CNN-Cert: Computing eps for input image ' + str(i)+ '---')
+        #predict_label = np.argmax(true_labels[i])
+        #target_label = np.argmax(targets[i])
         weights = model.weights
         biases = model.biases
         shapes = model.shapes
@@ -655,9 +645,13 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
         # weights.append(last_weight)
         # biases.append(np.asarray([b[predict_label]-b[target_label]]))
         # shapes.append((1,1,1))
-        LB, UB = find_output_bounds(weights, biases, shapes, model.pads, model.strides, model.sizes, model.types, inputs[i].astype(np.float32), 0, p_n)
+   
+        LB,UB = find_output_bounds(weights, biases, shapes, model.pads, model.strides, model.sizes, model.types, inputs[i].astype(np.float32), 0, p_n)
         predict_label=np.where(LB>=LB.max())
-
+        UB[predict_label]=-np.inf
+        minmax=LB[predict_label]-UB.max()
+        target_label=np.where(UB==UB.max())
+        print("Step {}, eps = {:.5f}, {:.6s} <= f_c - f_t ".format(-1,0,str(np.squeeze(minmax))))
         #Perform binary searchcc
         log_eps = np.log(eps_0)
         log_eps_min = -np.inf
@@ -667,7 +661,7 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
             LB, UB = find_output_bounds(weights, biases, shapes, model.pads, model.strides, model.sizes, model.types, inputs[i].astype(np.float32), np.exp(log_eps), p_n)
             UB[predict_label]=-np.inf
             minmax=LB[predict_label]-UB.max()
-            target_label=np.where(UB==UB.max())            
+            target_label=np.where(UB==UB.max())
             print("Step {}, eps = {:.5f}, {:.6s} <= f_c - f_t ".format(j,np.exp(log_eps),str(np.squeeze(minmax))))
             if minmax > 0: #Increase eps
                 log_eps_min = log_eps
@@ -681,12 +675,12 @@ def run(file_name, n_samples, p_n, q_n, activation = 'relu', cifar=False, tinyim
         else:
             str_p_n = str(p_n)
 
-        print("[L1] method = Deep-Cert-{}, model = {}, image no = {}, true_id = {}, target_label = {}, true_label = {}, norm = {}, robustness = {:.5f}".format(activation,file_name, i, true_ids[i],target_label,predict_label,str_p_n,np.exp(log_eps_min)))
+        print("[L1] method = CNN-Cert-{}, model = {}, image no = {}, true_id = {}, target_label = {}, true_label = {}, norm = {}, robustness = {:.5f}".format(activation,file_name, i, true_ids[i],target_label,predict_label,str_p_n,np.exp(log_eps_min)))
         summation += np.exp(log_eps_min)
     K.clear_session()
     
     eps_avg = summation/len(inputs)
     total_time = (time.time()-start_time)/len(inputs)
-    print("[L0] method = Deep-Cert-{}, model = {}, total images = {}, norm = {}, avg robustness = {:.5f}, avg runtime = {:.2f}".format(activation,file_name,len(inputs),str_p_n,eps_avg,total_time))
+    print("[L0] method = CNN-Cert-{}, model = {}, total images = {}, norm = {}, avg robustness = {:.5f}, avg runtime = {:.2f}".format(activation,file_name,len(inputs),str_p_n,eps_avg,total_time))
     return eps_avg, total_time
     

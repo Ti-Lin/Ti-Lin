@@ -19,7 +19,6 @@ from tensorflow.contrib.keras.api.keras.optimizers import Adam
 import tensorflow as tf
 from setup_mnist import MNIST
 from setup_cifar import CIFAR
-from setup_tinyimagenet import tinyImagenet
 import os
 
 def train(data, file_name, filters, kernels, num_epochs=50, batch_size=128, train_temp=1, init=None, activation=tf.nn.relu, bn = False):
@@ -41,6 +40,8 @@ def train(data, file_name, filters, kernels, num_epochs=50, batch_size=128, trai
         model.add(Lambda(activation))
     # the output layer, with 10 classes
     model.add(Flatten())
+    model.add(Dense())
+    model.add(Dropout(0.5))
     model.add(Dense(10))
     
     # load initial weights when given
@@ -81,7 +82,6 @@ if not os.path.isdir('models'):
 
 
 if __name__ == '__main__':
-    '''
     train(MNIST(), file_name="models/mnist_cnn_2layer_5_3", filters=[5], kernels = [3], num_epochs=10)
     train(MNIST(), file_name="models/mnist_cnn_3layer_5_3", filters=[5,5], kernels = [3,3], num_epochs=10)
     train(MNIST(), file_name="models/mnist_cnn_4layer_5_3", filters=[5,5,5], kernels = [3,3,3], num_epochs=10)
@@ -119,23 +119,6 @@ if __name__ == '__main__':
     train(MNIST(), file_name="models/mnist_cnn_8layer_5_3_atan", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3,3], num_epochs=10, activation=tf.atan)
     train(CIFAR(), file_name="models/cifar_cnn_5layer_5_3_atan", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation=tf.atan)
     train(CIFAR(), file_name="models/cifar_cnn_7layer_5_3_atan", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3], num_epochs=10, activation=tf.atan)
-    '''
-    train(MNIST(), file_name="models/mnist_cnn_5layer_5_3_sigmoid", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.sigmoid)
-    train(MNIST(), file_name="models/mnist_cnn_6layer_5_3_sigmoid", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
-    train(MNIST(), file_name="models/mnist_cnn_7layer_5_3_sigmoid", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
-    train(CIFAR(), file_name="models/cifar_cnn_6layer_5_3_sigmoid", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
-    train(CIFAR(), file_name="models/cifar_cnn_8layer_5_3_sigmoid", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.sigmoid)
 
-    train(MNIST(), file_name="models/mnist_cnn_5layer_5_3_tanh", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.tanh)
-    train(MNIST(), file_name="models/mnist_cnn_6layer_5_3_tanh", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.tanh)
-    train(MNIST(), file_name="models/mnist_cnn_7layer_5_3_tanh", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
-    train(CIFAR(), file_name="models/cifar_cnn_6layer_5_3_tanh", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.tanh)
-    train(CIFAR(), file_name="models/cifar_cnn_8layer_5_3_tanh", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.tanh)
-
-    train(MNIST(), file_name="models/mnist_cnn_5layer_5_3_atan", filters=[5,5,5,5], kernels = [3,3,3,3], num_epochs=10, activation = tf.atan)
-    train(MNIST(), file_name="models/mnist_cnn_6layer_5_3_atan", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.atan)
-    train(MNIST(), file_name="models/mnist_cnn_7layer_5_3_atan", filters=[5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
-    train(CIFAR(), file_name="models/cifar_cnn_6layer_5_3_atan", filters=[5,5,5,5,5], kernels = [3,3,3,3,3], num_epochs=10, activation = tf.atan)
-    train(CIFAR(), file_name="models/cifar_cnn_8layer_5_3_atan", filters=[5,5,5,5,5,5,5], kernels = [3,3,3,3,3,3,3], num_epochs=10, activation = tf.atan)
 
     

@@ -2,6 +2,7 @@ import subprocess
 import numpy as np
 from cnn_bounds_full import run as run_cnn_full
 from cnn_bounds_full_core import run as run_cnn_full_core
+#from cnn_bounds_full_core_not_zero import run as run_cnn_full_core
 from Attacks.cw_attack import cw_attack
 from tensorflow.contrib.keras.api.keras import backend as K
 
@@ -54,7 +55,7 @@ def run(hidden, numlayer, numimage, norm, filename = '', layers = None, lp=False
     time = result[3].strip()[17:]
     return float(LB), float(time)
 
-#Runs Deep-Cert with specified parameters
+#Runs Ti-Lin with specified parameters
 def run_cnn(file_name, n_samples, norm, core=True, activation='relu', cifar=False, tinyimagenet=False):
     if core:
         if norm == 'i':
@@ -72,7 +73,7 @@ def run_cnn(file_name, n_samples, norm, core=True, activation='relu', cifar=Fals
         if norm == '1':
             return run_cnn_full(file_name, n_samples, 1, 105, activation, cifar, tinyimagenet)
 
-#Runs all Fast-Lin and Deep-Cert variations
+#Runs all Fast-Lin and Ti-Lin variations
 def run_all_relu(layers, file_name, mlp_file_name, cifar = False, num_image=10, flfull = False, nonada = False):
     if len(file_name.split('_')) == 5:
         filters = file_name.split('_')[-2]
@@ -84,9 +85,9 @@ def run_all_relu(layers, file_name, mlp_file_name, cifar = False, num_image=10, 
     for norm in ['i', '2', '1']:
         LBss = []
         timess = []
-        if nonada: #Run non adaptive Deep-Cert bounds
+        if nonada: #Run non adaptive Ti-Lin bounds
             LB, time = run_cnn(file_name, num_image, norm, cifar=cifar)
-            printlog("Deep-Cert-relu")
+            printlog("Ti-Lin-relu")
             if filters:
                 printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,len(layers)+1,num_image,norm,filters,kernel_size))
             else:
@@ -97,7 +98,7 @@ def run_all_relu(layers, file_name, mlp_file_name, cifar = False, num_image=10, 
             LBss.append(LB)
             timess.append(time)
         LB, time = run_cnn(file_name, num_image, norm, activation='ada', cifar=cifar)
-        printlog("Deep-Cert-Ada, ReLU activation")
+        printlog("Ti-Lin-Ada, ReLU activation")
         if filters:
             printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,len(layers)+1,num_image,norm,filters,kernel_size))
         else:
@@ -145,7 +146,8 @@ def run_all_relu(layers, file_name, mlp_file_name, cifar = False, num_image=10, 
         times.append(timess)
     return LBs, times
 
-#Runs all general activation function versions of Deep-Cert
+#Runs all general activation function versions of Ti-Lin
+# 2022/10/29 added new params: tiny_imagenet relative to def run_cnn(tinyimagenet, ...)
 def run_all_general(file_name, num_image = 10, core=True, cifar=False, tiny_imagenet=False, ada=True, onlyrelu=False, skipsigmoid=False, no_activate=True):
     if len(file_name.split('_')) == 5:
         nlayer = file_name.split('_')[-3][0]
@@ -160,7 +162,7 @@ def run_all_general(file_name, num_image = 10, core=True, cifar=False, tiny_imag
         timess = []
         if no_activate:
             LB, time = run_cnn(file_name, num_image, norm, core=core, activation = 'relu', cifar= cifar, tinyimagenet=tiny_imagenet)  
-            printlog("Deepcert-relu")
+            printlog("Ti-Lin-relu")
             if filters:
                 printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,nlayer,num_image,norm,filters,kernel_size))
             else:
@@ -172,7 +174,7 @@ def run_all_general(file_name, num_image = 10, core=True, cifar=False, tiny_imag
             timess.append(time)
         if ada:
             LB, time = run_cnn(file_name, num_image, norm, core=core, activation = 'ada', cifar= cifar, tinyimagenet=tiny_imagenet)
-            printlog("Deepcert-Ada, ReLU activation")
+            printlog("Ti-Lin-Ada, ReLU activation")
             if filters:
                 printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,nlayer,num_image,norm,filters,kernel_size))
             else:
@@ -185,7 +187,7 @@ def run_all_general(file_name, num_image = 10, core=True, cifar=False, tiny_imag
         if not onlyrelu:
             if not skipsigmoid:
                 LB, time = run_cnn(file_name + '_sigmoid', num_image, norm, core=core, activation = 'sigmoid', cifar= cifar, tinyimagenet=tiny_imagenet)
-                printlog("Deepcert-Ada, Sigmoid activation")
+                printlog("Ti-Lin-Ada, Sigmoid activation")
                 if filters:
                     printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,nlayer,num_image,norm,filters,kernel_size))
                 else:
@@ -196,7 +198,7 @@ def run_all_general(file_name, num_image = 10, core=True, cifar=False, tiny_imag
                 LBss.append(LB)
                 timess.append(time)
             LB, time = run_cnn(file_name + '_tanh', num_image, norm, core=core, activation = 'tanh', cifar= cifar, tinyimagenet=tiny_imagenet)
-            printlog("Deepcert-Ada, Tanh activation")
+            printlog("Ti-Lin-Ada, Tanh activation")
             if filters:
                 printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,nlayer,num_image,norm,filters,kernel_size))
             else:
@@ -207,7 +209,7 @@ def run_all_general(file_name, num_image = 10, core=True, cifar=False, tiny_imag
             LBss.append(LB)
             timess.append(time)
             LB, time = run_cnn(file_name + '_atan', num_image, norm, core=core, activation = 'arctan', cifar= cifar, tinyimagenet=tiny_imagenet)
-            printlog("Deepcert-Ada, Arctan activation")
+            printlog("Ti-Lin-Ada, Arctan activation")
             if filters:
                 printlog("model name = {0}, numlayer = {1}, numimage = {2}, norm = {3}, targettype = random, filters = {4}, kernel size = {5}".format(file_name,nlayer,num_image,norm,filters,kernel_size))
             else:
@@ -303,26 +305,37 @@ if __name__ == '__main__':
     printlog("Table {} result".format(table))
     printlog("-----------------------------------")
     
-    if table == -2:
+    if table == 3:
         # max pool certified region
-        LBs, times = run_all_general('../models/mnist_cnn_6layer', ada=True, onlyrelu=True, core=True)
-        LB.append(LBs)                                                                
-        time.append(times)                                                            
-        LBs, times = run_all_general('../models/mnist_cnn_7layer', ada=True, onlyrelu=True, core=True)
-        LB.append(LBs)                                                                
-        time.append(times)                                                            
-        LBs, times = run_all_general('../models/mnist_cnn_8layer', ada=True, onlyrelu=True, core=True)
+        #LBs, times = run_all_general('../models/mnist_cnn_6layer', ada=True, onlyrelu=True, core=False, no_activate=False)
+        #LB.append(LBs)                                                                
+        #time.append(times)                                                            
+        #LBs, times = run_all_general('../models/mnist_cnn_7layer', ada=True, onlyrelu=True, core=False, no_activate=False)
+        #LB.append(LBs)                                                                
+        #time.append(times)                                                            
+        #LBs, times = run_all_general('../models/mnist_cnn_8layer', ada=True, onlyrelu=True, core=False, no_activate=False)
+        #LB.append(LBs)
+        #time.append(times)
+        #LBs, times = run_all_general('../models/cifa_cnn_6layer', ada=True, onlyrelu=True, core=False, cifar=True, no_activate=False)
+        #LB.append(LBs)
+        #time.append(times)
+        #LBs, times = run_all_general('../models/cifa_cnn_7layer', ada=True, onlyrelu=True, core=False, cifar=True, no_activate=False)
+        #LB.append(LBs)
+        #time.append(times)
+        #LBs, times = run_all_general('../models/cifa_cnn_8layer', ada=True, onlyrelu=True, core=False, cifar=True, no_activate=False)
+        #LB.append(LBs)
+        #time.append(times)
+	# new experiments
+        #LBs, times = run_all_general('../models/tinyimage_cnn_6layer', ada=True, onlyrelu=True, core=False, cifar=False, no_activate=False, tiny_imagenet=True)
+        #LB.append(LBs)
+        #time.append(times)
+        #LBs, times = run_all_general('../models/tinyimage_cnn_7layer', ada=True, onlyrelu=True, core=False, cifar=False, no_activate=False, tiny_imagenet=True)
+        #LB.append(LBs)
+        #time.append(times)
+        LBs, times = run_all_general('../models/tinyimage_cnn_8layer', ada=True, onlyrelu=True, core=False, cifar=False, no_activate=False, tiny_imagenet=True)
         LB.append(LBs)
         time.append(times)
-        LBs, times = run_all_general('../models/cifa_cnn_6layer', ada=True, onlyrelu=True, core=True, cifar=True)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../models/cifa_cnn_7layer', ada=True, onlyrelu=True, core=True, cifar=True)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../models/cifa_cnn_8layer', ada=True, onlyrelu=True, core=True, cifar=True)
-        LB.append(LBs)
-        time.append(times)
+
         
     if table == 1:
         #activation certified region
@@ -337,69 +350,20 @@ if __name__ == '__main__':
         LB.append(LBs)
         time.append(times)
         LBs, times = run_all_general('../models/mnist_cnn_7layer_5_3', core=False,ada=False)
-        LB.append(LBs)
+        LB.append(LBs)  
         time.append(times)
         LBs, times = run_all_general('../models/mnist_cnn_8layer_5_3', core=False,ada=False)
         LB.append(LBs)
         time.append(times)
         '''
-        '''
-        
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_2layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
+        LBs, times = run_all_general('./models/cifar_cnn_8layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
         LB.append(LBs)
         time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_3layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
+        LBs, times = run_all_general('./models/mnist_cnn_8layer_20_3', core=False,ada=False,cifar=False, no_activate=False)
         LB.append(LBs)
         time.append(times)
-        
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_4layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_5layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        '''
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_6layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_7layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_8layer_5_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_8layer_10_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/mnist_cnn_8layer_20_3', core=False,ada=False,cifar=False, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        '''
 
 
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_5layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_6layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_7layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_8layer_5_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_5layer_10_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_5layer_20_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_7layer_10_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        LBs, times = run_all_general('../Ti-Lin/models/cifar_cnn_7layer_20_3', core=False,ada=False,cifar=True, no_activate=False)
-        LB.append(LBs)
-        time.append(times)
-        '''
+
+
         

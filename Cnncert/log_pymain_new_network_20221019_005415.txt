@@ -1,7 +1,0 @@
-Table 3 result
------------------------------------
-CNN-Cert-Ada, ReLU activation
-model name = ../models/cifa_cnn_6layer, numimage = 10, norm = i, targettype = random
-avg robustness = 0.00099
-avg run time = 1731.16 sec
------------------------------------

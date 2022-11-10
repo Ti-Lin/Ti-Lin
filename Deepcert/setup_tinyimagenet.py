@@ -96,4 +96,3 @@ class tinyImagenet():
         
         self.test_data = np.swapaxes(X_test,1,3)
         self.test_labels = y_test
-        

@@ -24,7 +24,7 @@ timestr = datetime.datetime.fromtimestamp(ts).strftime('%Y%m%d_%H%M%S')
 
 #Prints to log file
 def printlog(s):
-    print(s, file=open("log_pymain_"+timestr+".txt", "a"))
+    print(s, file=open("log_pymain_pool_"+timestr+".txt", "a"))
     
 #Runs command line command
 def command(cmd):
@@ -344,7 +344,7 @@ if __name__ == '__main__':
     LB = []
     time = []
 
-    table = 12
+    table = 5
     print("==================================================")
     print("================ Running Table {} ================".format(table))
     print("==================================================")
@@ -388,15 +388,18 @@ if __name__ == '__main__':
         time.append(times)
     if table == 5:
         # Table 5
+        '''
         LBs, times = run_all_general('models/mnist_cnn_lenet', core=False)
         LB.append(LBs)
         time.append(times)
         LBs, times = run_all_general('models/mnist_cnn_7layer', core=False)
         LB.append(LBs)
         time.append(times)
+        '''
         LBs, times = run_all_general('models/mnist_cnn_lenet_nopool', onlyrelu=True, core=False)
         LB.append(LBs)
         time.append(times)
+        
         LBs, times = run_all_general('models/mnist_cnn_4layer_5_3_bn', onlyrelu=True, core=False)
         LB.append(LBs)
         time.append(times)
@@ -406,12 +409,15 @@ if __name__ == '__main__':
         LBs, times = run_all_general('models/tiny_cnn_7layer', onlyrelu=True)
         LB.append(LBs)
         time.append(times)
+        '''
         LBs, times = run_all_general('models/mnist_cnn_lenet', num_image=100, core=False)
         LB.append(LBs)
         time.append(times)
+        
         LBs, times = run_all_general('models/mnist_cnn_4layer_5_3', num_image=100, ada=False)
         LB.append(LBs)
         time.append(times)
+        '''
     if table == 6:
         #Table 6
         LBs, times = run_all_general('models/mnist_resnet_2', core=False)

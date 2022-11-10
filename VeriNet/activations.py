@@ -36,7 +36,7 @@ def sigmoidut(l, u):
     upper = u
     lower = 0
     al = act(l)
-    while abs(upper-lower)>0.0001:
+    for i in range(20):
         guess = (upper + lower)/2
         guesst = actd(guess)
         guesss = (act(guess)-al)/(guess-l)
@@ -54,7 +54,7 @@ def sigmoidlt(l, u):
     upper = 0
     lower = l
     au = act(u)
-    while abs(upper-lower)>0.0001:
+    for i in range(20):
         guess = (upper + lower)/2
         guesst = actd(guess)
         guesss = (au-act(guess))/(u-guess)
@@ -97,7 +97,7 @@ def atanut(l, u):
     upper = u
     lower = 0
     al = act(l)
-    while abs(upper-lower)>0.0001:
+    for i in range(20):
         guess = (upper + lower)/2
         guesst = actd(guess)
         guesss = (act(guess)-al)/(guess-l)
@@ -115,7 +115,7 @@ def atanlt(l, u):
     upper = 0
     lower = l
     au = act(u)
-    while abs(upper-lower)>0.0001:
+    for i in range(20):
         guess = (upper + lower)/2
         guesst = actd(guess)
         guesss = (au-act(guess))/(u-guess)
@@ -133,7 +133,7 @@ def tanhut(l, u):
     upper = u
     lower = 0
     al = act(l)
-    while abs(upper-lower)>0.0001:
+    for i in range(20):
         guess = (upper + lower)/2
         guesst = actd(guess)
         guesss = (act(guess)-al)/(guess-l)
@@ -151,7 +151,7 @@ def tanhlt(l, u):
     upper = 0
     lower = l
     au = act(u)
-    while abs(upper-lower)>0.0001:
+    for i in range(20):
         guess = (upper + lower)/2
         guesst = actd(guess)
         guesss = (au-act(guess))/(u-guess)

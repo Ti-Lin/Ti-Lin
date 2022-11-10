@@ -41,7 +41,7 @@ def show(img, name = "output.png"):
     for i in range(28):
         print("".join([remap[int(round(x))] for x in img[i*28:i*28+28]]))
 
-def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = False, skip_wrong_label = True, start=0, ids = None, 
+def generate_data(data, samples, targeted=True, random_and_least_likely = False, skip_wrong_label = True, start=10, ids = None, 
         target_classes = None, target_type = 0b1111, predictor = None, imagenet=False, remove_background_class=False, save_inputs=False, model_name=None, save_inputs_dir=None):
     """
     Generate the input data to the attack algorithm.
@@ -69,7 +69,9 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
         if target_classes:
             target_classes = target_classes[start:start+samples]
         start = 0
+
     total = 0
+    #print(ids)
     for i in ids:
         total += 1
         if targeted:
@@ -77,12 +79,7 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
             if random_and_least_likely:
                 # if there is no user specified target classes
                 if target_classes is None:
-                    #print(type(data.test_data[start+i]))
-                    #print(data.test_data[start+i][np.newaxis,:])
-                    if not cifa:
-                        original_predict = np.squeeze(predictor(data.test_data[start+i].transpose(2, 0, 1)))
-                    else:
-                        original_predict = np.squeeze(predictor(data.test_data[start+i][np.newaxis,:]))
+                    original_predict = np.squeeze(predictor(np.array([data.test_data[start+i]])))
                     num_classes = len(original_predict)
                     predicted_label = np.argmax(original_predict)
                     least_likely_label = np.argmin(original_predict)
@@ -95,7 +92,11 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
                     new_seq[2] = random_class
                     true_label = np.argmax(data.test_labels[start+i])
                     seq = []
+                    print('true_label', true_label)
+                    print('predicted_label', predicted_label)
+                    print(start)
                     if true_label != predicted_label and skip_wrong_label:
+                        print(skip_wrong_label)
                         seq = []
                     else:
                         if target_type & 0b10000:
@@ -132,12 +133,14 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
                     information.extend(data.test_labels.shape[1] * ['seq'])
             print("[DATAGEN][L1] no = {}, true_id = {}, true_label = {}, predicted = {}, correct = {}, seq = {}, info = {}".format(total, start + i, 
                 np.argmax(data.test_labels[start+i]), predicted_label, np.argmax(data.test_labels[start+i]) == predicted_label, seq, [] if len(seq) == 0 else information[-len(seq):]))
+            print(seq)
+            print(data.test_data)
             for j in seq:
+                print(data.test_data)
                 # skip the original image label
                 if (j == np.argmax(data.test_labels[start+i])):
                     continue
-                #inputs.append(data.test_data[start+i])#.transpose(2, 0, 1))
-                inputs.append(data.test_data[start+i].transpose(2, 0, 1))
+                inputs.append(data.test_data[start+i])
                 if remove_background_class:
                     targets.append(target_candidate_pool_remove_background_class[j])
                 else:
@@ -147,6 +150,7 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
                     true_labels[-1] = true_labels[-1][1:]
                 true_ids.append(start+i)
         else:
+            print('******else******')
             true_label = np.argmax(data.test_labels[start+i])
             original_predict = np.squeeze(predictor(np.array([data.test_data[start+i]])))
             num_classes = len(original_predict)
@@ -154,8 +158,7 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
             if true_label != predicted_label and skip_wrong_label:
                 continue
             else:
-                #inputs.append(data.test_data[start+i].transpose(2, 0, 1))#.transpose(2, 0, 1))
-                inputs.append(data.test_data[start+i].transpose(2, 0, 1))
+                inputs.append(data.test_data[start+i])
                 if remove_background_class:
                     # shift target class by 1
                     print(np.argmax(data.test_labels[start+i]))
@@ -168,7 +171,8 @@ def generate_data(data, cifa, samples, targeted=True, random_and_least_likely = 
                     true_labels[-1] = true_labels[-1][1:]
                 true_ids.append(start+i)
                 information.extend(['original'])
-
+    print('******')
+    print(inputs)
     inputs = np.array(inputs)
     targets = np.array(targets)
     true_labels = np.array(true_labels)
