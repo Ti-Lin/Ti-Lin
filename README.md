@@ -21,7 +21,7 @@ This repository contains our tools Ti-Lin and Ti-Lin-R. Concretely, for general 
    cd Ti-Lin
    ```
 
-3. Download the [models](https://www.dropbox.com/s/two0zry2qpv3njq/models.zip?dl=0used) in this paper and unzip the zip file.
+3. Download the [new models](https://www.dropbox.com/s/byvlywiqnocx51d/models.zip?dl=0) in this paper and unzip the zip file.
    
    ```
    unzip models.zip
