@@ -1,0 +1,7 @@
+Table 1 result
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/cifar_cnn_8layer_5_3, numlayer = 8, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 1174.64304
+avg run time = 120.12 sec
+-----------------------------------

@@ -1,0 +1,77 @@
+Table 4 result
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00625
+avg run time = 6.44 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.01100
+avg run time = 5.66 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.07508
+avg run time = 5.44 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.11213
+avg run time = 5.40 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.26409
+avg run time = 5.42 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.34811
+avg run time = 5.41 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00922
+avg run time = 13.35 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00982
+avg run time = 13.23 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.08668
+avg run time = 13.32 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.08538
+avg run time = 13.18 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.26753
+avg run time = 13.70 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.29118
+avg run time = 13.23 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.02298
+avg run time = 26.30 sec
+-----------------------------------
+Ti-Lin-R-Ada, Arctan activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00924
+avg run time = 26.07 sec
+-----------------------------------
+Ti-Lin-R-Ada, Tanh activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.16664
+avg run time = 26.10 sec
+-----------------------------------

@@ -1,0 +1,317 @@
+Table 2 result
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = i, targettype = random
+avg robustness = 0.07683
+avg run time = 6.04 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = i, targettype = random
+avg robustness = 0.07960
+avg run time = 6.30 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00485
+avg run time = 6.10 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.26643
+avg run time = 6.21 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.32828
+avg run time = 6.15 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.09174
+avg run time = 6.26 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.42131
+avg run time = 6.20 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.69939
+avg run time = 6.12 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_3layer_128, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.44218
+avg run time = 6.18 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00787
+avg run time = 11.65 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00715
+avg run time = 11.77 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00941
+avg run time = 11.87 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.14750
+avg run time = 11.60 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.14320
+avg run time = 11.88 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.18995
+avg run time = 12.12 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.74341
+avg run time = 12.28 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.82448
+avg run time = 11.80 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_3layer_256, numimage = 10, norm = 1, targettype = random
+avg robustness = 1.13356
+avg run time = 12.27 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = i, targettype = random
+avg robustness = 0.01287
+avg run time = 20.68 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00644
+avg run time = 20.80 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00588
+avg run time = 17.65 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.25017
+avg run time = 17.76 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.12024
+avg run time = 18.00 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.10363
+avg run time = 18.04 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = 1, targettype = random
+avg robustness = 1.34745
+avg run time = 17.98 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.54869
+avg run time = 19.06 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_5layer_384, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.38193
+avg run time = 18.25 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00995
+avg run time = 24.21 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00262
+avg run time = 23.52 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00451
+avg run time = 23.51 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.17068
+avg run time = 23.58 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.03715
+avg run time = 23.67 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.07847
+avg run time = 23.54 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.53415
+avg run time = 23.31 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.07798
+avg run time = 23.63 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/mnist_fnn_6layer_512, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.33631
+avg run time = 23.63 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00098
+avg run time = 22.57 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00193
+avg run time = 23.22 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00110
+avg run time = 23.25 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.03546
+avg run time = 22.65 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.07748
+avg run time = 22.57 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.04181
+avg run time = 23.20 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.36399
+avg run time = 23.51 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.98316
+avg run time = 22.90 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_3layer_256, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.44136
+avg run time = 22.89 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00106
+avg run time = 66.07 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00087
+avg run time = 66.01 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00102
+avg run time = 66.73 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.03905
+avg run time = 66.19 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.03390
+avg run time = 66.29 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.03610
+avg run time = 66.38 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.38462
+avg run time = 65.44 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.43793
+avg run time = 65.85 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_5layer_384, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.34968
+avg run time = 65.98 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00157
+avg run time = 87.12 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00110
+avg run time = 87.50 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = i, targettype = random
+avg robustness = 0.00061
+avg run time = 87.32 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.05857
+avg run time = 87.80 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.04125
+avg run time = 87.70 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = 2, targettype = random
+avg robustness = 0.01998
+avg run time = 87.42 sec
+-----------------------------------
+CNN-Cert-Ada, Sigmoid activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.61744
+avg run time = 86.87 sec
+-----------------------------------
+CNN-Cert-Ada, Tanh activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.47598
+avg run time = 87.71 sec
+-----------------------------------
+CNN-Cert-Ada, Arctan activation
+model name = ../models/fnn/cifa_fnn_6layer_512, numimage = 10, norm = 1, targettype = random
+avg robustness = 0.16927
+avg run time = 86.95 sec
+-----------------------------------

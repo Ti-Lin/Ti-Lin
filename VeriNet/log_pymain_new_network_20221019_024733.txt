@@ -1,0 +1,92 @@
+Table 4 result
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00625
+avg run time = 51.62 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.01100
+avg run time = 50.55 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.26409
+avg run time = 51.23 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.34811
+avg run time = 51.52 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.07508
+avg run time = 51.55 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_4layer_5_3, numlayer = 4, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.11213
+avg run time = 54.48 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00922
+avg run time = 90.67 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00982
+avg run time = 89.36 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.26753
+avg run time = 88.77 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.29118
+avg run time = 90.62 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.08668
+avg run time = 91.96 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_5layer_5_3, numlayer = 5, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.08538
+avg run time = 91.67 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.02298
+avg run time = 138.14 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = i, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.00924
+avg run time = 138.07 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.48350
+avg run time = 138.85 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = 1, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.22447
+avg run time = 139.44 sec
+-----------------------------------
+VeriNet-Ada, Tanh activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.16664
+avg run time = 138.46 sec
+-----------------------------------
+VeriNet-Ada, Arctan activation
+model name = ../models/mnist_cnn_6layer_5_3, numlayer = 6, numimage = 10, norm = 2, targettype = random, filters = 5, kernel size = 3
+avg robustness = 0.07401
+avg run time = 138.52 sec
+-----------------------------------
