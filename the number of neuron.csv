@@ -1,0 +1,48 @@
+﻿MNIST_cnn_2layer_5_3,3380
+MNIST_cnn_3layer_5_3,6260
+MNIST_cnn_4layer_5_3,8680
+MNIST_cnn_5layer_5_3,10680
+MNIST_cnn_6layer_5_3,12300
+MNIST_cnn_7layer_5_3,13580
+MNIST_cnn_8layer_5_3,14560
+MNIST_cnn_8layer_10_3,29120
+MNIST_cnn_8layer_20_3,58240
+CIFAR_cnn_5layer_5_3,14680
+CIFAR_cnn_6layer_5_3,17100
+CIFAR_cnn_7layer_5_3,19100
+CIFAR_cnn_8layer_5_3,20720
+CIFAR_cnn_9layer_5_3,22000
+CIFAR_cnn_6layer_10_3,34200
+CIFAR_cnn_8layer_10_3,41440
+"TinyImageNet
+CNN 4layer",220328
+"TinyImageNet
+CNN 5layer",399928
+"TinyImageNet
+CNN 6layer",371464
+"MNIST
+CNN 4layer",36584
+"MNIST
+CNN 5layer",52872
+MNIST,56392
+CNN,
+6 layer,
+MNIST,56592
+CNN,
+7 layer,
+MNIST,56912
+CNN,
+8 layer,
+"CIFAR
+CNN 4layer",49320
+"CIFAR
+CNN 5layer",71880
+CIFAR,77576
+CNN,
+6 layer,
+CIFAR,77776
+CNN,
+7 layer,
+CIFAR,78416
+CNN,
+8 layer,
